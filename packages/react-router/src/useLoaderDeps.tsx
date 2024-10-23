@@ -16,6 +16,7 @@ export function useLoaderDeps<
 >(
   opts: StrictOrFrom<Constrain<TFrom, RouteIds<TRouteTree>>> & {
     select?: (match: TRouteMatch) => TSelected
+    structuralSharing?: boolean
   },
 ): TSelected {
   return useMatch({

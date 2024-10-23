@@ -123,6 +123,7 @@ export const MatchInner = React.memo(function MatchInnerImpl({
         match: pick(match, ['id', 'status', 'error', 'loadPromise']),
       }
     },
+    structuralSharing: true
   })
 
   const route = router.routesById[routeId]!
@@ -259,7 +260,7 @@ export const Outlet = React.memo(function OutletImpl() {
 
   const route = router.routesById[routeId]!
 
-  const { parentGlobalNotFound } = useRouterState({
+  const parentGlobalNotFound = useRouterState({
     select: (s) => {
       const matches = s.matches
       const parentMatch = matches.find((d) => d.id === matchId)
@@ -267,9 +268,7 @@ export const Outlet = React.memo(function OutletImpl() {
         parentMatch,
         `Could not find parent match for matchId "${matchId}"`,
       )
-      return {
-        parentGlobalNotFound: parentMatch.globalNotFound,
-      }
+      return parentMatch.globalNotFound
     },
   })
 

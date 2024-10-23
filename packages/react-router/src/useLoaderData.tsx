@@ -13,6 +13,7 @@ export type UseLoaderDataOptions<
   TSelected,
 > = StrictOrFrom<Constrain<TFrom, RouteIds<TRouteTree>>, TStrict> & {
   select?: (match: Required<TRouteMatch>['loaderData']) => TSelected
+  structuralSharing?: boolean
 }
 
 export function useLoaderData<

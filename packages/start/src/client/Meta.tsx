@@ -13,6 +13,7 @@ export const useMeta = () => {
     select: (state) => {
       return state.matches.map((match) => match.meta!).filter(Boolean)
     },
+    structuralSharing: true
   })
 
   const meta: Array<RouterManagedTag> = React.useMemo(() => {
@@ -68,6 +69,7 @@ export const useMeta = () => {
             ...link,
           },
         })) as Array<RouterManagedTag>,
+    structuralSharing: true
   })
 
   const preloadMeta = useRouterState({
@@ -92,6 +94,7 @@ export const useMeta = () => {
 
       return preloadMeta
     },
+    structuralSharing: true
   })
 
   return uniqBy(

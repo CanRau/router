@@ -214,39 +214,50 @@ export class LazyRoute<TRoute extends AnyRoute> {
     TSelected = TRouteMatch,
   >(opts?: {
     select?: (match: TRouteMatch) => TSelected
+    structuralSharing?: boolean
   }): TSelected => {
-    return useMatch({ select: opts?.select, from: this.options.id })
+    return useMatch({
+      select: opts?.select,
+      from: this.options.id,
+      structuralSharing: opts?.structuralSharing,
+    })
   }
 
   useRouteContext = <TSelected = TRoute['types']['allContext']>(opts?: {
     select?: (s: TRoute['types']['allContext']) => TSelected
+    structuralSharing?: boolean
   }): TSelected => {
     return useMatch({
       from: this.options.id,
       select: (d: any) => (opts?.select ? opts.select(d.context) : d.context),
+      structuralSharing: opts?.structuralSharing,
     })
   }
 
   useSearch = <TSelected = TRoute['types']['fullSearchSchema']>(opts?: {
     select?: (s: TRoute['types']['fullSearchSchema']) => TSelected
+    structuralSharing?: boolean
   }): TSelected => {
     return useSearch({ ...opts, from: this.options.id })
   }
 
   useParams = <TSelected = TRoute['types']['allParams']>(opts?: {
     select?: (s: TRoute['types']['allParams']) => TSelected
+    structuralSharing?: boolean
   }): TSelected => {
     return useParams({ ...opts, from: this.options.id })
   }
 
   useLoaderDeps = <TSelected = TRoute['types']['loaderDeps']>(opts?: {
     select?: (s: TRoute['types']['loaderDeps']) => TSelected
+    structuralSharing?: boolean
   }): TSelected => {
     return useLoaderDeps({ ...opts, from: this.options.id } as any)
   }
 
   useLoaderData = <TSelected = TRoute['types']['loaderData']>(opts?: {
     select?: (s: TRoute['types']['loaderData']) => TSelected
+    structuralSharing?: boolean
   }): TSelected => {
     return useLoaderData({ ...opts, from: this.options.id } as any)
   }

@@ -833,8 +833,13 @@ export class RouteApi<TId, TRouter extends AnyRouter = RegisteredRouter> {
     TSelected = TRouteMatch,
   >(opts?: {
     select?: (match: TRouteMatch) => TSelected
+    structuralSharing?: boolean
   }): TSelected => {
-    return useMatch({ select: opts?.select, from: this.id })
+    return useMatch({
+      select: opts?.select,
+      from: this.id,
+      structuralSharing: opts?.structuralSharing,
+    })
   }
 
   useRouteContext = <
@@ -843,10 +848,12 @@ export class RouteApi<TId, TRouter extends AnyRouter = RegisteredRouter> {
     select?: (
       s: Expand<RouteTypesById<TRouter, TId>['allContext']>,
     ) => TSelected
+    structuralSharing?: boolean
   }): TSelected => {
     return useMatch({
       from: this.id,
       select: (d: any) => (opts?.select ? opts.select(d.context) : d.context),
+      structuralSharing: opts?.structuralSharing,
     })
   }
 
@@ -856,6 +863,7 @@ export class RouteApi<TId, TRouter extends AnyRouter = RegisteredRouter> {
     select?: (
       s: Expand<RouteTypesById<TRouter, TId>['fullSearchSchema']>,
     ) => TSelected
+    structuralSharing?: boolean
   }): TSelected => {
     return useSearch({ ...opts, from: this.id })
   }
@@ -864,6 +872,7 @@ export class RouteApi<TId, TRouter extends AnyRouter = RegisteredRouter> {
     TSelected = Expand<RouteTypesById<TRouter, TId>['allParams']>,
   >(opts?: {
     select?: (s: Expand<RouteTypesById<TRouter, TId>['allParams']>) => TSelected
+    structuralSharing?: boolean
   }): TSelected => {
     return useParams({ ...opts, from: this.id })
   }
@@ -872,6 +881,7 @@ export class RouteApi<TId, TRouter extends AnyRouter = RegisteredRouter> {
     TSelected = RouteTypesById<TRouter, TId>['loaderDeps'],
   >(opts?: {
     select?: (s: RouteTypesById<TRouter, TId>['loaderDeps']) => TSelected
+    structuralSharing?: boolean
   }): TSelected => {
     return useLoaderDeps({ ...opts, from: this.id, strict: false } as any)
   }
@@ -880,6 +890,7 @@ export class RouteApi<TId, TRouter extends AnyRouter = RegisteredRouter> {
     TSelected = RouteTypesById<TRouter, TId>['loaderData'],
   >(opts?: {
     select?: (s: RouteTypesById<TRouter, TId>['loaderData']) => TSelected
+    structuralSharing?: boolean
   }): TSelected => {
     return useLoaderData({ ...opts, from: this.id, strict: false } as any)
   }
@@ -1243,6 +1254,7 @@ export class Route<
     TSelected = TRouteMatch,
   >(opts?: {
     select?: (match: TRouteMatch) => TSelected
+    structuralSharing?: boolean
   }): TSelected => {
     return useMatch({ ...opts, from: this.id })
   }
@@ -1266,6 +1278,7 @@ export class Route<
           TBeforeLoadFn
         >
       >,
+      structuralSharing?: boolean,
     ) => TSelected
   }): TSelected => {
     return useMatch({
@@ -1280,6 +1293,7 @@ export class Route<
   >(opts?: {
     select?: (
       search: Expand<ResolveFullSearchSchema<TParentRoute, TSearchValidator>>,
+      structuralSharing?: boolean,
     ) => TSelected
   }): TSelected => {
     return useSearch({ ...opts, from: this.id })
@@ -1290,6 +1304,7 @@ export class Route<
   >(opts?: {
     select?: (
       search: Expand<ResolveAllParamsFromParent<TParentRoute, TParams>>,
+      structuralSharing?: boolean,
     ) => TSelected
   }): TSelected => {
     return useParams({ ...opts, from: this.id })
@@ -1297,12 +1312,14 @@ export class Route<
 
   useLoaderDeps = <TSelected = TLoaderDeps>(opts?: {
     select?: (s: TLoaderDeps) => TSelected
+    structuralSharing?: boolean
   }): TSelected => {
     return useLoaderDeps({ ...opts, from: this.id } as any)
   }
 
   useLoaderData = <TSelected = ResolveLoaderData<TLoaderFn>>(opts?: {
     select?: (search: ResolveLoaderData<TLoaderFn>) => TSelected
+    structuralSharing?: boolean
   }): TSelected => {
     return useLoaderData({ ...opts, from: this.id } as any)
   }

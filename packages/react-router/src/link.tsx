@@ -643,7 +643,7 @@ export function useLinkProps<
   }, [to])
 
   // subscribe to search params to re-build location if it changes
-  const currentSearch = useRouterState({ select: (s) => s.location.search })
+  const currentSearch = useRouterState({ select: (s) => s.location.search, structuralSharing: true })
 
   const next = React.useMemo(
     () => router.buildLocation(options as any),

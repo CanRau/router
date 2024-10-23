@@ -5,11 +5,15 @@ export function useLocation<
   TRouter extends AnyRouter = RegisteredRouter,
   TLocationState = RouterState<TRouter['routeTree']>['location'],
   TSelected = TLocationState,
->(opts?: { select?: (state: TLocationState) => TSelected }): TSelected {
+>(opts?: {
+  select?: (state: TLocationState) => TSelected
+  structuralSharing?: boolean
+}): TSelected {
   return useRouterState({
     select: (state) =>
       opts?.select
         ? opts.select(state.location as TLocationState)
         : (state.location as TSelected),
+    structuralSharing: opts?.structuralSharing,
   })
 }

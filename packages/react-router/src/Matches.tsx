@@ -278,6 +278,7 @@ export function useMatchRoute<TRouter extends AnyRouter = RegisteredRouter>() {
 
   useRouterState({
     select: (s) => [s.location.href, s.resolvedLocation.href, s.status],
+    structuralSharing: true,
   })
 
   return React.useCallback(
@@ -363,7 +364,10 @@ export function useMatches<
   TRouter extends AnyRouter = RegisteredRouter,
   TRouteMatch = MakeRouteMatchUnion<TRouter>,
   T = Array<TRouteMatch>,
->(opts?: { select?: (matches: Array<TRouteMatch>) => T }): T {
+>(opts?: {
+  select?: (matches: Array<TRouteMatch>) => T
+  structuralSharing?: boolean
+}): T {
   return useRouterState({
     select: (state) => {
       const matches = state.matches
@@ -371,6 +375,7 @@ export function useMatches<
         ? opts.select(matches as Array<TRouteMatch>)
         : (matches as T)
     },
+    structuralSharing: opts?.structuralSharing,
   })
 }
 
@@ -378,7 +383,10 @@ export function useParentMatches<
   TRouter extends AnyRouter = RegisteredRouter,
   TRouteMatch = MakeRouteMatchUnion<TRouter>,
   T = Array<TRouteMatch>,
->(opts?: { select?: (matches: Array<TRouteMatch>) => T }): T {
+>(opts?: {
+  select?: (matches: Array<TRouteMatch>) => T
+  structuralSharing?: boolean
+}): T {
   const contextMatchId = React.useContext(matchContext)
 
   return useMatches({
@@ -391,6 +399,7 @@ export function useParentMatches<
         ? opts.select(matches as Array<TRouteMatch>)
         : (matches as T)
     },
+    structuralSharing: opts?.structuralSharing,
   })
 }
 
@@ -398,7 +407,10 @@ export function useChildMatches<
   TRouter extends AnyRouter = RegisteredRouter,
   TRouteMatch = MakeRouteMatchUnion<TRouter>,
   T = Array<TRouteMatch>,
->(opts?: { select?: (matches: Array<TRouteMatch>) => T }): T {
+>(opts?: {
+  select?: (matches: Array<TRouteMatch>) => T
+  structuralSharing?: boolean
+}): T {
   const contextMatchId = React.useContext(matchContext)
 
   return useMatches({
@@ -410,5 +422,6 @@ export function useChildMatches<
         ? opts.select(matches as Array<TRouteMatch>)
         : (matches as T)
     },
+    structuralSharing: opts?.structuralSharing,
   })
 }
